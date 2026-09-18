@@ -37,6 +37,8 @@ Other settings: `PORT` for the API, `WEB_PORT` for the interface, `TREE_LEARN_DA
 
 ## Deploying the hosted version
 
+Live at **https://tree-learn.srijanshukla18.workers.dev**.
+
 ```bash
 npx wrangler login
 npm run deploy
@@ -51,7 +53,12 @@ separate key they can cap or revoke) or by pasting one. The key lives in their b
 that key, or anything the learner reads and writes, anywhere else. It is worth checking in DevTools rather than
 believing this file.
 
-Set `VITE_REPO_URL` at build time to link the source from the interface.
+Set `VITE_REPO_URL` at build time to link the source from the interface. Until you do, the "open source" line in
+the app has no link, which weakens the one claim visitors cannot check for themselves:
+
+```bash
+VITE_REPO_URL=https://github.com/you/tree-learn npm run deploy
+```
 
 ## How it fits together
 
