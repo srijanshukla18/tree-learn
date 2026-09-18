@@ -140,8 +140,8 @@ export class Engine implements EngineAPI {
 
   async ask(treeId: string, body: AskBody, sink: StreamSink): Promise<void> {
     const tree = await this.must(treeId);
-    const model = body.model ?? tree.model ?? (await this.llm.catalog()).defaultModel;
-    if (!model) throw new Error("No model available. Pick one in the model menu.");
+    const model = body.model ?? tree.model ?? (await this.noModel());
+    if (typeof model !== "string") throw model;
     const thinkingLevel = body.thinkingLevel ?? tree.thinkingLevel;
     const node = this.draft(tree, body, "streaming", model, thinkingLevel);
     const firstRoot = !node.parentId && tree.title === UNTITLED && Object.keys(tree.nodes).length === 0;
@@ -158,8 +158,8 @@ export class Engine implements EngineAPI {
     const tree = await this.must(treeId);
     const node = mustNode(tree, nodeId);
     if (this.inflight.has(nodeId)) throw new Error("This answer is already being generated.");
-    const model = opts.model ?? (node.model || undefined) ?? tree.model ?? (await this.llm.catalog()).defaultModel;
-    if (!model) throw new Error("No model available. Pick one in the model menu.");
+    const model = opts.model ?? (node.model || undefined) ?? tree.model ?? (await this.noModel());
+    if (typeof model !== "string") throw model;
     Object.assign(node, {
       answer: "", thinking: undefined, thinkingMs: undefined, error: undefined, usage: undefined, suggestions: undefined,
       unread: undefined, status: "streaming", model, thinkingLevel: opts.thinkingLevel ?? node.thinkingLevel ?? tree.thinkingLevel,
@@ -211,6 +211,13 @@ export class Engine implements EngineAPI {
   }
 
   // ---------- internals ----------
+
+  /** The chosen model, or an error explaining how to get one. */
+  private async noModel(): Promise<string | Error> {
+    const catalog = await this.llm.catalog();
+    return catalog.defaultModel ?? new Error(catalog.emptyHint ?? "No model available. Pick one in the model menu.");
+  }
+
 
   private draft(tree: Tree, body: Pick<AskBody, "parentId" | "question" | "quote">, status: TreeNode["status"], model: string, thinkingLevel?: string): TreeNode {
     const question = body.question?.trim();

@@ -8,6 +8,9 @@ import type { ChatMessage, LLM, LLMEvent, LLMRequest, ModelCatalog, ModelInfo } 
  * Answers through pi: the same providers, models, API keys and OAuth logins as the `pi` CLI,
  * read from ~/.pi/agent. The runtime is rebuilt whenever one of pi's config files changes,
  * so enabling a model or logging in to a provider shows up here without a restart.
+ *
+ * pi also picks up the usual provider environment variables (OPENROUTER_API_KEY, ANTHROPIC_API_KEY,
+ * OPENAI_API_KEY and friends), which is how this runs for someone who has never used pi.
  */
 const WATCHED = ["models.json", "auth.json", "settings.json"];
 
@@ -44,6 +47,22 @@ function pi(): Promise<Pi> {
 }
 
 const keyOf = (m: Model<Api>) => `${m.provider}/${m.id}`;
+
+/**
+ * Which model to use when pi has no configured default, as when someone is running on nothing but an
+ * environment key. Cheapest wins: a newcomer's first question should not land on a frontier model
+ * just because its name sorts first. Rate-limited `:free` variants are a last resort.
+ */
+function cheapest(models: ModelInfo[]): string | undefined {
+  const price = (m: ModelInfo) => m.cost.input + m.cost.output;
+  const enabled = models.filter((m) => m.enabled);
+  const pool = enabled.length ? enabled : models;
+  // Prefer a real metered price. A zero or negative price means either a genuinely free local model or,
+  // on a gateway, a router or free tier that picks the model for you and reports no usable cost, which
+  // would make the per-answer price shown in the UI a lie. Local-only setups fall through to those.
+  const metered = pool.filter((m) => price(m) > 0 && !m.id.endsWith(":free"));
+  return [...(metered.length ? metered : pool)].sort((a, b) => price(a) - price(b))[0]?.id;
+}
 
 async function resolve(runtime: ModelRuntime, key: string): Promise<Model<Api>> {
   const slash = key.indexOf("/");
@@ -93,8 +112,11 @@ export function createPiLLM(): LLM {
       const preferred = provider && model ? `${provider}/${model}` : undefined;
       return {
         models,
-        defaultModel: models.find((m) => m.id === preferred)?.id ?? models.find((m) => m.enabled)?.id ?? models[0]?.id,
+        defaultModel: models.find((m) => m.id === preferred)?.id ?? cheapest(models),
         defaultThinking: settings.getDefaultThinkingLevel() ?? "medium",
+        emptyHint: models.length
+          ? undefined
+          : "No models available. Run `pi` once and log in to a provider, or start Tree Learn with a provider key in the environment, such as OPENROUTER_API_KEY.",
       };
     },
 

@@ -45,6 +45,8 @@ function securityHeaders(): Plugin {
 
 export default defineConfig({
   root,
+  // `root` is web/, but .env lives at the project root next to package.json, where people expect it.
+  envDir: path.resolve(root, ".."),
   plugins: [react(), ...(hosted ? [securityHeaders()] : [])],
   resolve: { alias: { "@shared": path.resolve(root, "..", "shared") } },
   server: {

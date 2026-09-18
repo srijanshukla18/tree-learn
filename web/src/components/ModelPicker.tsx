@@ -41,7 +41,7 @@ export function ModelPicker() {
       {m.id === model ? <Check size={13} /> : <span style={{ width: 13, flex: "none" }} />}
       <span className="nm">{m.name}</span>
       <span className="prov">{m.provider}</span>
-      <span className="cost">{m.cost.input === 0 && m.cost.output === 0 ? "free" : `$${+m.cost.input.toFixed(2)} / $${+m.cost.output.toFixed(2)}`}</span>
+      <span className="cost">{m.cost.input < 0 || m.cost.output < 0 ? "varies" : m.cost.input === 0 && m.cost.output === 0 ? "free" : `$${+m.cost.input.toFixed(2)} / $${+m.cost.output.toFixed(2)}`}</span>
       {vault && (
         <span
           role="button"
@@ -74,7 +74,7 @@ export function ModelPicker() {
             {top.map((m) => <Item key={m.id} m={m} />)}
             {rest.length > 0 && <div className="model-group">{query ? "More matches" : "All models (search for more)"}</div>}
             {rest.map((m) => <Item key={m.id} m={m} />)}
-            {!top.length && !rest.length && <div className="palette-empty">{models.length ? "No model matches." : "No models available yet."}</div>}
+            {!top.length && !rest.length && <div className="palette-empty">{models.length ? "No model matches." : (catalog?.emptyHint ?? "No models available yet.")}</div>}
           </div>
           {current && levels.length > 1 && (
             <div className="levels">

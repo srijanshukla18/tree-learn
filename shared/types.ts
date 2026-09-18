@@ -70,6 +70,8 @@ export interface ModelCatalog {
   models: ModelInfo[];
   defaultModel?: string;
   defaultThinking?: string;
+  /** Shown when `models` is empty, to say what would fix it. */
+  emptyHint?: string;
 }
 
 export interface SearchHit {

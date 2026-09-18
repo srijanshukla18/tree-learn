@@ -15,7 +15,8 @@ export function shortModel(id: string) {
 }
 
 export function formatCost(cost?: number) {
-  if (!cost) return "";
+  // Some routers report a negative placeholder rather than a real cost; showing "-$225" helps nobody.
+  if (!cost || cost < 0) return "";
   return cost < 0.01 ? `$${cost.toFixed(4)}` : `$${cost.toFixed(2)}`;
 }
 
