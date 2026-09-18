@@ -53,12 +53,8 @@ separate key they can cap or revoke) or by pasting one. The key lives in their b
 that key, or anything the learner reads and writes, anywhere else. It is worth checking in DevTools rather than
 believing this file.
 
-Set `VITE_REPO_URL` at build time to link the source from the interface. Until you do, the "open source" line in
-the app has no link, which weakens the one claim visitors cannot check for themselves:
-
-```bash
-VITE_REPO_URL=https://github.com/you/tree-learn npm run deploy
-```
+`.env` holds `VITE_REPO_URL`, which is the link behind the app's "open source" line. If you fork this, point it at
+your fork, otherwise you are asking people to trust code that is not the code you deployed.
 
 ## How it fits together
 
