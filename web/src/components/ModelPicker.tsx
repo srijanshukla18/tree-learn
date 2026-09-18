@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Brain, Check, ChevronUp, Cpu, Star } from "lucide-react";
+import { Brain, Check, ChevronUp, Cpu, Star, Zap } from "lucide-react";
 import type { ModelInfo } from "@shared/types";
 import { useWorkspace } from "../state/workspace";
 import { shortModel } from "../lib/misc";
@@ -76,12 +76,28 @@ export function ModelPicker() {
             {rest.map((m) => <Item key={m.id} m={m} />)}
             {!top.length && !rest.length && <div className="palette-empty">{models.length ? "No model matches." : (catalog?.emptyHint ?? "No models available yet.")}</div>}
           </div>
-          {current && levels.length > 1 && (
+          {(vault || (current && levels.length > 1)) && (
             <div className="levels">
-              <span className="lbl"><Brain size={12} /> Thinking</span>
-              {levels.map((l) => (
-                <button key={l} className={"level" + (l === level ? " on" : "")} onClick={() => setModel(current.id, l)}>{l}</button>
-              ))}
+              {current && levels.length > 1 && (
+                <>
+                  <span className="lbl"><Brain size={12} /> Thinking</span>
+                  {levels.map((l) => (
+                    <button key={l} className={"level" + (l === level ? " on" : "")} onClick={() => setModel(current.id, l)}>{l}</button>
+                  ))}
+                </>
+              )}
+              {vault && (
+                <button
+                  className={"level fast" + (vault.fastRouting() ? " on" : "")}
+                  onClick={() => vault.setFastRouting(!vault.fastRouting())}
+                  aria-pressed={vault.fastRouting()}
+                  data-tip="Pick the fastest provider for this model instead of the cheapest"
+                  aria-label="Fast routing"
+                  data-tip-pos="bottom"
+                >
+                  <Zap size={11} fill={vault.fastRouting() ? "currentColor" : "none"} /> fast
+                </button>
+              )}
             </div>
           )}
         </div>

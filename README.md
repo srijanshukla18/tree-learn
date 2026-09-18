@@ -83,6 +83,12 @@ npm run deploy
 That builds a static site and puts it on Cloudflare. There is no server, no database and no account to create, so
 there is nothing to operate and nothing of anyone else's to look after.
 
+New visitors start on DeepSeek V4.1 Flash with a low thinking effort, which is quick and costs fractions of a cent,
+and with **fast** routing on. That last one appends OpenRouter's `:nitro` modifier to the request, asking for the
+fastest provider serving that model rather than the cheapest, which is worth it when you are reading an answer as it
+streams. It is a toggle in the model menu rather than a separate entry in the list, and it can be turned off. Any
+model in the menu works with it.
+
 Visitors bring their own OpenRouter key, either by approving the app on openrouter.ai (OAuth with PKCE, which mints a
 separate key they can cap or revoke) or by pasting one. The key lives in their browser. The build ships a
 `Content-Security-Policy` that only allows connections to `https://openrouter.ai`, so the browser itself refuses to

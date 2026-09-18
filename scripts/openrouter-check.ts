@@ -37,6 +37,31 @@ const sinkFor = () => {
   return { seen, sink };
 };
 
+// Request shaping, checked against a stub so it needs no key and costs nothing.
+{
+  const sent: string[] = [];
+  const stub: typeof fetch = async (input, init) => {
+    const url = String(input);
+    if (url.endsWith("/models")) return new Response(JSON.stringify({ data: [{ id: "a/b", name: "A B", pricing: { prompt: "0.000001", completion: "0.000002" }, supported_parameters: ["reasoning"] }] }), { headers: { "content-type": "application/json" } });
+    sent.push(JSON.parse(String(init?.body)).model);
+    return new Response('data: [DONE]\n\n', { headers: { "content-type": "text/event-stream" } });
+  };
+  let fast = true;
+  const llm = createOpenRouterLLM({ getKey: () => "sk-or-v1-stub", fetch: stub, fastRouting: () => fast });
+  const run = async (model: string) => {
+    for await (const _ of llm.stream({ model, messages: [{ role: "user", content: "x" }] }));
+  };
+  await run("a/b");
+  await run("a/b:free");
+  await run("~x/y-latest");
+  fast = false;
+  await run("a/b");
+  check("fast routing appends :nitro", sent[0] === "a/b:nitro", sent[0]);
+  check("fast routing leaves an existing variant alone", sent[1] === "a/b:free", sent[1]);
+  check("fast routing works on ~latest aliases", sent[2] === "~x/y-latest:nitro", sent[2]);
+  check("turning it off sends the plain model", sent[3] === "a/b", sent[3]);
+}
+
 const key = await findKey();
 if (!key) {
   console.log("No OpenRouter key found (set OPENROUTER_API_KEY). Skipping.");
@@ -49,7 +74,12 @@ const engine = new Engine({ storage, llm: createOpenRouterLLM({ getKey: () => cu
 const catalog = await engine.models();
 const model = process.argv[2] ?? catalog.defaultModel!;
 check("catalog loads without a key-dependent call", catalog.models.length > 50, `${catalog.models.length} models`);
-check("default is a '-latest' alias", !!catalog.defaultModel?.startsWith("~"), catalog.defaultModel);
+check("default model", catalog.defaultModel === "deepseek/deepseek-v4.1-flash", catalog.defaultModel);
+check("nitro is not a row in the picker", !catalog.models.some((m) => m.id.includes(":nitro")));
+check("default thinking effort is low", catalog.defaultThinking === "low", catalog.defaultThinking);
+const chosen = catalog.models.find((m) => m.id === catalog.defaultModel);
+check("the default is selectable in the picker", !!chosen, chosen && `${chosen.name} · $${chosen.cost.input}/${chosen.cost.output} per M`);
+check("the default supports the thinking control", !!chosen?.reasoning && chosen.thinkingLevels.includes("low"), chosen?.thinkingLevels.join("/"));
 check("batch variants are hidden", !catalog.models.some((m) => m.id.endsWith(":batch")));
 const picked = catalog.models.find((m) => m.id === model);
 check("prices are per million tokens", !!picked && picked.cost.input > 0 && picked.cost.input < 100, picked && `$${picked.cost.input}/${picked.cost.output}`);

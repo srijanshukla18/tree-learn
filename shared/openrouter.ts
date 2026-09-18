@@ -3,8 +3,22 @@ import type { LLM, LLMEvent, LLMRequest, ModelCatalog, ModelInfo } from "./types
 export const OPENROUTER_BASE = "https://openrouter.ai/api/v1";
 export const OPENROUTER_AUTH = "https://openrouter.ai/auth";
 
-/** Preferred defaults, best first. OpenRouter's "~…-latest" aliases never go stale. */
+/** Where a new learner starts: fast, cheap, and willing to think a little before answering. */
+const DEFAULT_MODEL = "deepseek/deepseek-v4.1-flash";
+const DEFAULT_THINKING = "low";
+
+/** Fallbacks if the preferred model ever leaves the catalog. The "~…-latest" aliases never go stale. */
 const DEFAULT_CANDIDATES = ["~deepseek/deepseek-flash-latest", "~google/gemini-flash-latest", "~anthropic/claude-haiku-latest", "~openai/gpt-mini-latest"];
+
+/**
+ * `<id>:nitro` asks OpenRouter to pick the fastest provider for a model rather than the cheapest,
+ * which is worth real money when you are watching an answer stream. It is a routing modifier rather
+ * than a model, so it is applied to the request and never shown as a separate row in the picker.
+ * Ids that already carry a variant such as `:free` are left alone.
+ */
+function routed(id: string, fast: boolean) {
+  return fast && !id.includes(":") ? `${id}:nitro` : id;
+}
 const EFFORT: Record<string, string> = { off: "none", minimal: "minimal", low: "low", medium: "medium", high: "high", xhigh: "xhigh", max: "max" };
 
 export interface OpenRouterOptions {
@@ -14,6 +28,8 @@ export interface OpenRouterOptions {
   appUrl?: string;
   appTitle?: string;
   favorites?(): string[];
+  /** Route for speed rather than price. See `routed`. */
+  fastRouting?(): boolean;
   fetch?: typeof fetch;
 }
 
@@ -65,7 +81,8 @@ export function createOpenRouterLLM(opts: OpenRouterOptions): LLM {
           thinkingLevels: reasoning ? ["auto", "off", "low", "medium", "high"] : ["auto"],
           contextWindow: m.context_length ?? 0,
           cost: { input: Number(m.pricing?.prompt ?? 0) * 1e6, output: Number(m.pricing?.completion ?? 0) * 1e6 },
-          enabled: m.id.startsWith("~"),
+          // The top group of the picker: the curated "~…-latest" aliases, plus whatever we default to.
+          enabled: m.id.startsWith("~") || m.id === DEFAULT_MODEL,
         };
       });
     cached = { at: Date.now(), models };
@@ -79,14 +96,15 @@ export function createOpenRouterLLM(opts: OpenRouterOptions): LLM {
         .map((m) => ({ ...m, enabled: m.enabled || favorites.has(m.id) }))
         .sort((a, b) => Number(b.enabled) - Number(a.enabled) || Number(favorites.has(b.id)) - Number(favorites.has(a.id)) || a.name.localeCompare(b.name));
       const ids = new Set(models.map((m) => m.id));
-      const defaultModel = DEFAULT_CANDIDATES.find((id) => ids.has(id)) ?? models.find((m) => m.enabled)?.id ?? models[0]?.id;
-      return { models, defaultModel, defaultThinking: "auto" };
+      const defaultModel =
+        [DEFAULT_MODEL, ...DEFAULT_CANDIDATES].find((id) => ids.has(id)) ?? models.find((m) => m.enabled)?.id ?? models[0]?.id;
+      return { models, defaultModel, defaultThinking: DEFAULT_THINKING };
     },
 
     async *stream(req: LLMRequest): AsyncIterable<LLMEvent> {
       const effort = req.thinkingLevel ? EFFORT[req.thinkingLevel] : undefined;
       const body = {
-        model: req.model,
+        model: routed(req.model, opts.fastRouting?.() ?? false),
         stream: true,
         usage: { include: true },
         messages: [...(req.system ? [{ role: "system", content: req.system }] : []), ...req.messages],

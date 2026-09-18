@@ -5,6 +5,7 @@ import type { Backend, KeyVault } from "./types";
 
 const KEY = "tree-learn:openrouter-key";
 const FAVORITES = "tree-learn:favorite-models";
+const FAST_ROUTING = "tree-learn:fast-routing";
 const VERIFIER = "tree-learn:pkce-verifier";
 // Overridable so hosted mode can be developed against scripts/mock-openrouter.ts (or another compatible gateway).
 const BASE = import.meta.env.VITE_OPENROUTER_BASE || OPENROUTER_BASE;
@@ -54,6 +55,11 @@ function createVault(): KeyVault {
       localStorage.setItem(FAVORITES, JSON.stringify([...set]));
       emit();
     },
+    fastRouting: () => localStorage.getItem(FAST_ROUTING) !== "off",
+    setFastRouting(on) {
+      localStorage.setItem(FAST_ROUTING, on ? "on" : "off");
+      emit();
+    },
     onChange(cb) {
       listeners.add(cb);
       return () => listeners.delete(cb);
@@ -78,6 +84,7 @@ export function createHostedBackend(): Backend {
       appUrl: location.origin,
       appTitle: "Tree Learn",
       favorites: () => vault.favorites(),
+      fastRouting: () => vault.fastRouting(),
     }),
     onChange: (treeId) => channel?.postMessage({ treeId }),
   });

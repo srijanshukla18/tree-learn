@@ -13,6 +13,9 @@ export interface KeyVault {
   completeConnect(): Promise<"connected" | "none">;
   favorites(): string[];
   toggleFavorite(modelId: string): void;
+  /** Ask OpenRouter for the fastest provider rather than the cheapest. On unless turned off. */
+  fastRouting(): boolean;
+  setFastRouting(on: boolean): void;
   onChange(cb: () => void): () => void;
 }
 
