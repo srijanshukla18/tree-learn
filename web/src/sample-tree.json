@@ -1,0 +1,140 @@
+{
+  "id": "sample",
+  "title": "Why the sky is blue",
+  "createdAt": 1789741326392,
+  "updatedAt": 1789741506265,
+  "nodes": {
+    "77aa42b7ca044165": {
+      "id": "77aa42b7ca044165",
+      "parentId": null,
+      "question": "Why is the sky blue?",
+      "answer": "Because air molecules scatter short visible wavelengths much more efficiently than long ones. The blue you see is not air glowing; it is sunlight that has been redirected toward your eye.\n\n## The key mechanism: Rayleigh scattering\n\nSunlight is a mix of wavelengths. When it passes through the atmosphere, the oscillating electric field of the light induces tiny oscillating dipoles in \\( \\mathrm{N_2} \\) and \\( \\mathrm{O_2} \\) molecules. Those dipoles re-radiate light in all directions.\n\nFor particles much smaller than the wavelength — as air molecules are — this is **Rayleigh scattering**, and the scattering cross-section scales as\n\n\\[\n\\sigma_R \\propto \\frac{1}{\\lambda^4}\n\\]\n\nSo shorter wavelengths are scattered far more strongly.\n\n| Color | Approx. wavelength | Relative Rayleigh scattering vs. 700 nm red |\n|---|---:|---:|\n| Red | 700 nm | \\(1\\) |\n| Blue | 450 nm | \\((700/450)^4 \\approx 5.9\\) |\n| Violet | 400 nm | \\((700/400)^4 \\approx 9.4\\) |\n\nA blue photon is roughly six times as likely to be scattered out of the direct solar beam as a red photon. That scattered light comes to your eye from all parts of the sky, so the sky looks blue.\n\n## Why not violet?\n\nViolet is scattered even more strongly, so why don't we see a violet sky?\n\n- The Sun’s spectrum is weaker in the violet than in the blue-green.\n- The human eye is much less sensitive to violet than to blue. The short-wavelength cones peak near 420 nm, but the overall visual response falls off sharply below about 450 nm.\n- Ozone absorbs some short-wavelength light, and its Chappuis absorption removes some yellow-red, which helps shift the perceived sky color toward blue.\n- Multiple scattering and aerosols mix the colors, producing a pale blue rather than a saturated spectral color.\n\nThe sky is therefore not a pure spectral blue; it is a broad mixture of scattered wavelengths that our visual system interprets as pale blue.\n\n## Why sunsets are red\n\nAt sunset, sunlight travels through a much longer path in the atmosphere. Along that long path, most of the blue light is Rayleigh-scattered out of the direct beam. What remains in the direct beam is enriched in red and orange, so the Sun and nearby sky look red.\n\nAt noon, the Sun is overhead, the path is shorter, and less blue is removed from the direct beam.\n\n## Bonus: polarization\n\nRayleigh scattering is not isotropic. Its angular pattern is approximately\n\n\\[\n1+\\cos^2\\theta\n\\]\n\nwhere \\(\\theta\\) is the scattering angle. At \\(90^\\circ\\) from the Sun, the scattered light is strongly linearly polarized. That is why a polarizing filter can darken parts of the blue sky.",
+      "status": "done",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "thinkingLevel": "low",
+      "createdAt": 1789741326398,
+      "updatedAt": 1789741360008,
+      "thinking": "We need answer why sky blue. Need depth. Explain Rayleigh scattering. Include formula, wavelength dependence, why blue not violet, sunsets, polarization maybe. Keep concise but concrete. The question is root. Need patient precise tutor. Use markdown headings sparingly. Maybe start direct.\n\nNeed maybe address: sunlight white, atmosphere molecules much smaller than wavelengths, Rayleigh scattering cross-section ∝ 1/λ^4. Blue ~450 nm scattered ~ (700/450)^4 ≈ 5.9 times red. Scattered light reaches…",
+      "thinkingMs": 27532,
+      "usage": {
+        "input": 202,
+        "output": 2475,
+        "cost": 0.0015153
+      }
+    },
+    "85054870f2264530": {
+      "id": "85054870f2264530",
+      "parentId": "77aa42b7ca044165",
+      "question": "Explain “Rayleigh scattering”",
+      "quote": "Rayleigh scattering",
+      "answer": "**Rayleigh scattering** is the elastic scattering of electromagnetic radiation by particles or molecules much smaller than the wavelength of the radiation. It is named after Lord Rayleigh, who analyzed it in the 19th century.\n\n“Elastic” means the scattered light has essentially the same frequency as the incident light. The light is redirected, not absorbed and re-emitted at a different color.\n\n## Physical picture\n\nWhen light passes through a gas, its oscillating electric field pushes the electrons in each molecule back and forth relative to the nuclei. This creates a tiny oscillating electric dipole.\n\nAn oscillating dipole radiates electromagnetic waves in all directions. So each air molecule acts like a miniature antenna that takes energy from the incident beam and re-radiates it sideways.\n\nFor a dipole moment \\(p = \\alpha E\\), where \\(\\alpha\\) is the molecular polarizability and \\(E\\) is the incident electric field, the radiated power scales as\n\n\\[\nP_{\\text{scattered}} \\propto \\omega^4 \\alpha^2 E^2\n\\]\n\nSince \\(\\omega = 2\\pi c/\\lambda\\), this gives the famous Rayleigh law:\n\n\\[\nP_{\\text{scattered}} \\propto \\frac{1}{\\lambda^4}\n\\]\n\nEquivalently, the scattering cross-section is\n\n\\[\n\\sigma_R \\propto \\frac{\\alpha^2}{\\lambda^4}\n\\]\n\nSo shorter wavelengths are scattered much more strongly.\n\n## Why \\(\\lambda^{-4}\\)\n\nThe \\(\\lambda^{-4}\\) comes from the acceleration of the oscillating charges. A dipole radiating at angular frequency \\(\\omega\\) has a radiation field proportional to the acceleration of the charge. Higher frequency means larger acceleration for the same displacement, and the radiated power goes as the square of the radiation field.\n\nThat is why blue light at 450 nm is scattered roughly\n\n\\[\n\\left(\\frac{700}{450}\\right)^4 \\approx 5.9\n\\]\n\ntimes more strongly than red light at 700 nm.\n\n## Angular pattern and polarization\n\nRayleigh scattering is not isotropic. For unpolarized incident light, the scattered intensity depends on the scattering angle \\(\\theta\\) as\n\n\\[\nI(\\theta) \\propto 1+\\cos^2\\theta\n\\]\n\nwhere \\(\\theta = 0^\\circ\\) means forward scattering and \\(\\theta = 180^\\circ\\) means backward scattering.\n\nThe scattered light is also partially linearly polarized. The degree of polarization is\n\n\\[\nP(\\theta) = \\frac{\\sin^2\\theta}{1+\\cos^2\\theta}\n\\]\n\nAt \\(\\theta = 90^\\circ\\), the scattered light is fully linearly polarized. This is why the daytime sky is polarized, and why a polarizing filter can darken parts of the sky.\n\n## When it applies\n\nRayleigh scattering applies when the particle size parameter\n\n\\[\nx = \\frac{2\\pi a}{\\lambda}\n\\]\n\nis much less than 1, typically \\(x \\lesssim 0.1\\). Here \\(a\\) is the particle radius and \\(\\lambda\\) is the wavelength.\n\nFor a small dielectric sphere of radius \\(a\\) and refractive index \\(n\\), the cross-section is approximately\n\n\\[\n\\sigma_R \\approx \\frac{8\\pi}{3} k^4 a^6\n\\left|\\frac{n^2-1}{n^2+2}\\right|^2\n\\]\n\nwith \\(k = 2\\pi/\\lambda\\). Notice the strong dependence on both wavelength and particle size: \\(\\sigma_R \\propto a^6/\\lambda^4\\).\n\n## Rayleigh vs. nearby regimes\n\n| Process | Particle size | Wavelength dependence | Notes |\n|---|---:|---:|---|\n| Rayleigh | \\(a \\ll \\lambda\\) | \\(\\lambda^{-4}\\) | Air molecules, small density fluctuations |\n| Mie | \\(a \\sim \\lambda\\) | weaker, oscillatory | Aerosols, cloud droplets, dust |\n| Geometric optics | \\(a \\gg \\lambda\\) | weak | Rainbows, lenses, large drops |\n| Thomson | free electron | none | \\(\\sigma_T = \\frac{8\\pi}{3}r_e^2\\) |\n| Raman | molecular | shifted frequency | Inelastic; vibrational/rotational energy exchange |\n\nRayleigh scattering is the small-particle limit. Mie scattering is the general solution for spheres of arbitrary size. Thomson scattering is the free-electron limit. Raman scattering is inelastic and changes the wavelength.\n\n## In the atmosphere\n\nAir is mostly \\(\\mathrm{N_2}\\) and \\(\\mathrm{O_2}\\). Their molecular size is around \\(0.3\\) nm, while visible wavelengths are \\(400\\)–\\(700\\) nm, so \\(x \\ll 1\\). Rayleigh scattering therefore dominates for clean air.\n\nAt sea level and 550 nm, the Rayleigh scattering coefficient is roughly\n\n\\[\n\\beta \\sim 0.01\\text{–}0.02\\ \\mathrm{km^{-1}}\n\\]\n\nThe vertical optical depth is about \\(0.1\\), which is why the atmosphere is optically thin in the vertical direction but still scatters enough blue light to make the whole sky bright.\n\nConsequences:\n\n- The sky is blue because blue sunlight is scattered toward your eye from all directions.\n- Sunsets are red because the direct solar beam loses much of its blue light over a long atmospheric path.\n- The sky is polarized at \\(90^\\circ\\) from the Sun.\n- Distant dark mountains look bluish because scattered skylight enters the line of sight.\n- In optical fibers, Rayleigh scattering from microscopic density fluctuations sets a loss floor that falls as \\(\\lambda^{-4}\\), which is one reason long-distance communications use infrared wavelengths near \\(1.55\\ \\mu\\mathrm{m}\\).",
+      "status": "done",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "thinkingLevel": "low",
+      "createdAt": 1789741360013,
+      "updatedAt": 1789741400316,
+      "thinking": "We need answer explain Rayleigh scattering. User quoted \"Rayleigh scattering\" from previous. Need explain. We should be direct, concrete, depth. Define, historical, physical mechanism, regime, formula, angular dependence, polarization, relation to Mie, examples. The quote is term. We can explain. Need maybe math: scattering cross section, dipole radiation, Rayleigh law. Include Rayleigh scattering vs Thomson, Raman. Include why 1/lambda^4. Use markdown. No summary/offers. Keep enough.\n\nWe need a…",
+      "thinkingMs": 27466,
+      "usage": {
+        "input": 37,
+        "output": 2524,
+        "cost": 0.001522254
+      }
+    },
+    "4541654601f4473d": {
+      "id": "4541654601f4473d",
+      "parentId": "77aa42b7ca044165",
+      "question": "If violet light scatters even more than blue, why isn't the sky violet?",
+      "answer": "Rayleigh scattering alone does favor violet. If you only used the \\(\\lambda^{-4}\\) rule, you might expect a violet sky. But the color you see is not just the scattering coefficient; it is the product of several factors.\n\nThe sky’s spectral radiance is roughly\n\n\\[\nL_{\\text{sky}}(\\lambda) \\propto I_{\\text{sun}}(\\lambda)\\,\\lambda^{-4}\\,T_{\\text{atm}}(\\lambda)\n\\]\n\nwhere \\(I_{\\text{sun}}(\\lambda)\\) is the sunlight available at that wavelength and \\(T_{\\text{atm}}\\) includes absorption and multiple scattering. Your eye then converts that whole spectrum into one perceived color.\n\nThe main reasons the result is blue rather than violet:\n\n- **The Sun emits less violet than blue.** The solar spectrum is not flat; it has more energy in the blue-green than in the deep violet. So even though violet is scattered more efficiently, there is less violet to begin with.\n- **The eye is much less sensitive to violet than to blue.** The short-wavelength cones respond to both, but the overall visual response drops sharply below about 450 nm. A pure 400 nm light looks violet, but it is not very bright.\n- **The sky is a broad mixture, not a single wavelength.** Scattered skylight contains a wide band from violet through blue and green. That mixture excites the blue-sensitive cones strongly and the green/red cones somewhat, which the brain interprets as pale blue, not saturated violet.\n- **Ozone absorbs some short-wavelength light.** This reduces the violet end of the spectrum that reaches your eye.\n- **Multiple scattering and aerosols add white light.** They dilute the color, making the sky a desaturated blue rather than a deep spectral violet.\n\nA useful way to think about it: a spectrometer pointed at the clear sky may show a peak in the blue-violet region, but “violet” as a perceived hue requires a narrower, shorter-wavelength stimulus with little blue-green mixed in. The sky has too much 450–500 nm light and too little deep-violet sensitivity in the eye, so the brain labels it blue.",
+      "status": "done",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "thinkingLevel": "low",
+      "createdAt": 1789741360013,
+      "updatedAt": 1789741407371,
+      "thinking": "We need answer follow-up. User asks same as already partly addressed. Need answer directly. We should focus on why not violet, maybe expand. Need be precise. They quoted? No blockquote shown. But likely follow-up to previous answer. We need explain. We can mention solar spectrum, eye sensitivity, ozone, multiple scattering, color perception. Maybe also mention chromaticity. Need direct. Could use table. Need avoid repeating too much but deepen. We need maybe explain Rayleigh scattering λ^-4 give…",
+      "thinkingMs": 41531,
+      "usage": {
+        "input": 812,
+        "output": 2740,
+        "cost": 0.0017657999999999999
+      },
+      "note": "The answer is partly about eyes, not just physics. Worth re-reading.",
+      "bookmarked": true
+    },
+    "5b845e3599314056": {
+      "id": "5b845e3599314056",
+      "parentId": "77aa42b7ca044165",
+      "question": "Why are sunsets red, then?",
+      "answer": "Exactly the same mechanism as the blue sky, but run in the opposite direction.\n\nAt sunset, the Sun is near the horizon, so its light passes through a much longer slant path of atmosphere before reaching you. Along that long path, the blue light is Rayleigh-scattered out of the direct beam. What survives is the red end of the spectrum.\n\n## The direct beam gets filtered\n\nRayleigh scattering has optical depth\n\n\\[\n\\tau(\\lambda) \\propto \\frac{1}{\\lambda^4}\n\\]\n\nso blue light is removed from the direct beam much faster than red light. The transmitted fraction is roughly\n\n\\[\nT(\\lambda) = e^{-m\\,\\tau(\\lambda)}\n\\]\n\nwhere \\(m\\) is the air mass — the ratio of the slant path to the vertical path. At the zenith, \\(m \\approx 1\\). At sunset, \\(m\\) can be \\(30\\)–\\(40\\).\n\nUsing a typical vertical optical depth \\(\\tau_{550} \\approx 0.1\\):\n\n| Wavelength | Color | \\(\\tau\\) vertical | \\(m\\tau\\) at sunset | Transmitted fraction |\n|---:|---|---:|---:|---:|\n| 450 nm | blue | 0.22 | \\(\\sim 8.5\\) | \\(\\sim 0.0002\\) |\n| 550 nm | green | 0.10 | \\(\\sim 3.8\\) | \\(\\sim 0.02\\) |\n| 650 nm | red | 0.051 | \\(\\sim 1.9\\) | \\(\\sim 0.14\\) |\n| 700 nm | deep red | 0.038 | \\(\\sim 1.5\\) | \\(\\sim 0.24\\) |\n\nSo blue is almost entirely scattered away, while a substantial fraction of red still comes straight through. That reddened direct beam is what you see as the setting Sun.\n\n## Why the sky near the Sun also looks red\n\nThe red light you see around the setting Sun is not just the Sun itself. It is reddened sunlight that has been scattered toward your eye by air molecules near the horizon.\n\nBy the time sunlight reaches the lower atmosphere at sunset, it has already lost most of its blue. The remaining light is red-orange. When that light scatters off air molecules, it scatters as red-orange light. So the whole western sky can glow red, orange, and yellow.\n\nMeanwhile, the blue light that was removed earlier is still illuminating the upper atmosphere and the sky away from the Sun. That is why, at sunset, the sky opposite the Sun can be blue or purple — sometimes called the **Belt of Venus**.\n\n## Why not a pure red Sun?\n\nThe setting Sun usually looks orange or yellow-orange, not pure red, because:\n\n- The Sun’s spectrum still contains green, yellow, and orange light.\n- The eye’s sensitivity is not uniform across wavelengths.\n- Aerosols and haze scatter and absorb light in complicated ways. Large particles scatter more uniformly (Mie scattering), which can whiten or yellow a sunset. Volcanic aerosols or smoke can deepen the red.\n- Multiple scattering mixes colors back in, especially near the horizon.\n\nA very clean atmosphere with a long path can give a deep red Sun. A hazy atmosphere often gives a broader orange or yellow glow.\n\n## The short version\n\nSunset is red because the long slant path acts as a Rayleigh filter: it scatters blue light out of the direct beam, leaving mostly red and orange. The blue that is removed lights up the rest of the sky, which is why the sky opposite the sunset can still look blue.",
+      "status": "done",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "thinkingLevel": "low",
+      "createdAt": 1789741360013,
+      "updatedAt": 1789741395767,
+      "thinking": "We need answer follow-up: \"Why are sunsets red, then?\" The previous answer already covered sunsets red briefly. User asks again, likely wants deeper explanation. Need answer directly, precise, maybe expand on path length, Rayleigh scattering, removal of blue, direct beam vs scattered, why red/orange not just red, role of aerosols, Mie scattering, multiple scattering, why sky near horizon red too, why sometimes purple/pink. We can quote previous excerpt? The user didn't quote, but follow-up to pr…",
+      "thinkingMs": 27167,
+      "usage": {
+        "input": 803,
+        "output": 2371,
+        "cost": 0.00154305
+      },
+      "unread": true
+    },
+    "481efe28139147be": {
+      "id": "481efe28139147be",
+      "parentId": "85054870f2264530",
+      "question": "Why does the effect depend so strongly on wavelength?",
+      "answer": "# Why $\\lambda^{-4}$ and not something gentler\n\nThe steep dependence comes from two separate facts multiplying together:\n\n1. **Radiating requires accelerating charge**, and the radiated field grows with the acceleration.\n2. **For air molecules in the visible, the induced dipole amplitude barely changes with wavelength.**\n\nThe second fact removes any competing $\\omega$-dependence, so the whole thing collapses to $\\omega^4 \\propto \\lambda^{-4}$.\n\n## Step 1: the molecule becomes an oscillating dipole\n\nThe incident field drives the molecule's electrons:\n\n$$E(t) = E_0\\,e^{-i\\omega t}$$\n\nFor a linear response, the induced dipole moment is\n\n$$p(t) = \\alpha\\,E_0\\,e^{-i\\omega t}$$\n\nwith $\\alpha$ the **polarizability**.\n\n## Step 2: an oscillating dipole radiates in proportion to its acceleration\n\nThe far field of an oscillating dipole is set by the second time derivative of $p$:\n\n$$E_{\\text{rad}} \\propto \\frac{\\ddot p}{r}$$\n\nSince $\\ddot p = -\\omega^2 p$,\n\n$$E_{\\text{rad}} \\propto \\omega^2 p \\quad\\Longrightarrow\\quad I_{\\text{scattered}} \\propto |E_{\\text{rad}}|^2 \\propto \\omega^4 |p|^2$$\n\nDividing by the incident intensity gives the cross-section:\n\n$$\\sigma_R = \\frac{P_{\\text{scattered}}}{I_{\\text{incident}}} \\propto \\omega^4|\\alpha|^2 \\propto \\frac{|\\alpha|^2}{\\lambda^4}$$\n\nSo the field amplitude carries $k^2 = (2\\pi/\\lambda)^2$; squaring to get intensity gives $k^4$. Physically: a static dipole radiates *nothing*. Wiggling it faster extracts more of its near-field energy into escaping radiation, and the efficiency of that extraction grows as $\\omega^4$.\n\n## Step 3: why $\\alpha$ is nearly constant across the visible\n\nFor a bound electron with natural frequency $\\omega_0$ and damping $\\gamma$ (the Lorentz oscillator),\n\n$$\\alpha(\\omega) = \\frac{q^2/m}{\\omega_0^2 - \\omega^2 - i\\gamma\\omega}$$\n\n$\\mathrm{N_2}$ and $\\mathrm{O_2}$ have their strong electronic resonances in the far ultraviolet — ionization thresholds near $80$–$103$ nm, strong bands well below $200$ nm. Visible light at $400$–$700$ nm sits far below resonance, $\\omega \\ll \\omega_0$, so\n\n$$\\alpha(\\omega) \\approx \\frac{q^2}{m\\,\\omega_0^2} = \\alpha(0)$$\n\nessentially the static polarizability, nearly independent of color.\n\n**This is the crux.** Because $\\alpha$ is flat over the visible, the entire wavelength dependence of air's scattering comes from the $\\omega^4$ radiation factor. Nothing cancels it.\n\nHad the electronic resonances fallen in the visible, $\\alpha$ would swing wildly with color, the sky would be resonantly bright, and its spectrum would look nothing like a smooth blue. The sky is blue *because* the atmosphere is transparent in the visible.\n\n## The size factor is separate from the wavelength factor\n\nFor a small dielectric sphere of radius $a$,\n\n$$\\alpha \\approx 4\\pi\\varepsilon_0\\,a^3\\,\\frac{n^2-1}{n^2+2}$$\n\nso\n\n$$\\sigma_R \\propto k^4 a^6 \\propto \\frac{a^6}{\\lambda^4}$$\n\nThe two powers mean different things:\n\n| Factor | Source | Meaning |\n|---|---|---|\n| $k^4 \\propto \\lambda^{-4}$ | Dipole radiation | How efficiently the shaken dipole re-radiates |\n| $a^6$ | $|\\alpha|^2 \\propto (\\text{volume})^2$ | How many driven charges, added coherently |\n\nAir molecules have $a \\sim 0.3$ nm, so each one scatters a minuscule amount. The blue sky is bright only because the optical path contains an enormous number of them.\n\n## Why $k^4$ is the leading term\n\n- A neutral molecule has no net charge, so there is **no monopole radiation**.\n- The **electric dipole** is the leading multipole for an object much smaller than $\\lambda$.\n- Magnetic dipole and electric quadrupole terms bring extra powers of $ka \\ll 1$, so they are negligible for air.\n\nThe near field of the dipole (the static $1/r^3$ part) holds most of the energy density but never escapes to infinity. Only the $1/r$ radiating part propagates, and its amplitude is the $\\omega^2 p$ piece above.\n\n## Feel for the steepness\n\nRelative scattering per molecule, normalized to 550 nm:\n\n| Wavelength | Color | $\\sigma_R/\\sigma_R(550\\text{ nm})$ |\n|---:|---|---:|\n| 400 nm | violet | 3.6 |\n| 450 nm | blue | 2.2 |\n| 500 nm | cyan | 1.5 |\n| 550 nm | green | 1.00 |\n| 600 nm | orange | 0.71 |\n| 700 nm | red | 0.38 |\n\nAcross the visible alone the scattering strength varies by nearly an order of magnitude. Double the wavelength and you divide scattering by **16**. That is why blue is lifted out of the direct beam and red is left behind at sunset.\n\n## When $\\lambda^{-4}$ breaks down\n\nThe $\\omega^4$ law assumes the particle is much smaller than $\\lambda$, so all its induced dipoles radiate **in phase**. When $a \\sim \\lambda$ — aerosols, haze, cloud droplets — phase differences across the particle cause partial cancellation that depends only weakly on wavelength:\n\n- **Mie scattering**, roughly wavelength-flat where $a \\sim \\lambda$ or larger.\n- Hence clouds and fog are white/grey, not blue.\n- Hence a hazy sky looks washed-out pale blue rather than deep blue: Rayleigh scattering from molecules is diluted by nearly neutral Mie scattering from particles.\n\nSo the blue of a clear sky is a *small-particle, off-resonance* phenomenon. Change either the particle size or the proximity to a molecular resonance and the $\\lambda^{-4}$ steepness softens or reshapes.",
+      "status": "done",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "thinkingLevel": "low",
+      "createdAt": 1789741407375,
+      "updatedAt": 1789741499125,
+      "thinking": "The learner is asking for the physical origin of the λ^-4 dependence. Give a deep, concrete explanation. I should cover the intuition: dipole radiation, acceleration, dimensional analysis, the two factors of 1/λ², phase cancellation, etc.\n\nLet me think carefully about the best explanations.\n\n1. Radiation from an oscillating dipole: power ∝ |p̈|². If p = p₀ cos(ωt), then p̈ = -ω²p₀ cos(ωt), so |p̈|² ∝ ω⁴ p₀². Hence P ∝ ω⁴ p₀². That's one factor of ω⁴.\n\n2. But also, why p₀ is roughly independent o…",
+      "thinkingMs": 74491,
+      "usage": {
+        "input": 1209,
+        "output": 8653,
+        "cost": 0.005375454
+      },
+      "suggestions": [
+        "Why is a static dipole's near field not the same as its radiation field?",
+        "How does the Lorentz oscillator model derive the polarizability formula?",
+        "If violet scatters most, why does the sky look pale blue and not purple?",
+        "Why are clouds white if Rayleigh scattering is so wavelength-dependent?",
+        "How does Rayleigh scattering set the loss floor in optical fibers?",
+        "What is the difference between Rayleigh, Mie, and Raman scattering?"
+      ]
+    },
+    "121cfee2f00a4457": {
+      "id": "121cfee2f00a4457",
+      "parentId": "77aa42b7ca044165",
+      "question": "What colour is the sky on Mars, and why?",
+      "answer": "",
+      "status": "parked",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "createdAt": 1789741499131,
+      "updatedAt": 1789741499131
+    },
+    "0439daeca17d4767": {
+      "id": "0439daeca17d4767",
+      "parentId": "5b845e3599314056",
+      "question": "Why does the Moon turn red during a lunar eclipse?",
+      "answer": "",
+      "status": "parked",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "createdAt": 1789741499136,
+      "updatedAt": 1789741499136
+    },
+    "8b96ea4faa7741a0": {
+      "id": "8b96ea4faa7741a0",
+      "parentId": "85054870f2264530",
+      "question": "Does the same scattering happen in water or glass?",
+      "answer": "",
+      "status": "parked",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash:nitro",
+      "createdAt": 1789741499141,
+      "updatedAt": 1789741499141
+    }
+  }
+}

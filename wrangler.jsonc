@@ -1,0 +1,11 @@
+{
+  // Hosted Tree Learn is a static site: no Worker code, no database, no secrets.
+  // Deploy with:  npm run deploy
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tree-learn",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./web/dist-hosted",
+    "not_found_handling": "single-page-application"
+  }
+}
