@@ -2,6 +2,14 @@
   "name": "tree-learn",
   "private": true,
   "version": "0.1.0",
+  "description": "A chat for learning that grows as a tree instead of a line.",
+  "license": "MIT",
+  "author": "Srijan Shukla",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srijanshukla18/tree-learn.git"
+  },
+  "homepage": "https://tree-learn.srijanshukla18.workers.dev",
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n api,web -c cyan,magenta \"npm:dev:api\" \"npm:dev:web\"",

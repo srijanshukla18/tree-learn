@@ -139,6 +139,10 @@ VITE_OPENROUTER_BASE=http://localhost:4750/api/v1 VITE_OPENROUTER_AUTH=http://lo
 `C` fold · `F` fit the tree · `O` topic overview · `N` new topic · `⌫` delete (with undo) · `[` `]` panels ·
 `?` the full list
 
+## License
+
+MIT. Fork it, run it, change it, ship it.
+
 ## Your topics
 
 They are yours and they are portable: a topic exports as Markdown or JSON, the whole library backs up to one file,
